@@ -1241,7 +1241,7 @@ body.work-page {
     
     /* UBAH DISINI: Jangan gunakan fixed */
     position: relative; 
-    padding-top: 95vh; /* Menjaga jarak dari atas layar */
+    padding-top: 140vh; /* Menjaga jarak dari atas layar */
     
     width: 100%;
     gap: 25px;
