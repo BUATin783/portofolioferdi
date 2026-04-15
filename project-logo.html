@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRAND IDENTITY | Modern Minimalis | Ferdianto N. S.</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="project-style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="project-detail-page">
+    <div class="drop-reveal"></div>
+
+    <main class="project-split-container">
+        <aside class="project-info-panel">
+            <div class="bg-number" id="project-number">01</div>
+            <div class="info-content-wrapper" id="text-container">
+                <div class="project-category-label"><span>BRAND IDENTITY</span></div>
+                <h1 class="project-title-modern" id="project-title">LOADING...</h1>
+                <div class="project-description-modern" id="project-desc"></div>
+            </div>
+                <div class="slider-progress-container"><div class="progress-bar" id="progress-line"></div></div>
+            <div class="project-nav-footer-modern">
+                <a href="work.html" class="btn-back-modern">
+                    <span class="circle-icon"><i class="fas fa-chevron-left"></i></span>
+                    <span class="text">BACK TO PORTFOLIO</span>
+                </a>
+            </div>
+        </aside>
+
+        <section class="project-slider-panel-modern">
+            <div class="slider-wrapper-modern" id="categorySlider">
+                <div class="slide-item-modern"><img src="asset/Logo/work-logo-1.jpg" alt="Logo 1"></div>
+                <div class="slide-item-modern"><img src="asset/Logo/work-logo-2.jpg" alt="Logo 2"></div>
+                <div class="slide-item-modern"><img src="asset/Logo/work-logo-3.jpg" alt="Logo 3"></div>
+                <div class="slide-item-modern"><img src="asset/Logo/work-logo-4.jpg" alt="Logo 4"></div>   
+                <div class="slide-item-modern"><img src="asset/Logo/work-logo-5.jpg" alt="Logo 5"></div>
+            </div>
+            <div class="slider-controls-modern">
+                <button class="ctrl-btn-modern" onclick="updateSlide(-1)"><i class="fas fa-arrow-left"></i></button>
+                <button class="ctrl-btn-modern" onclick="updateSlide(1)"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <script src="data-logo.js"></script>
+    <script src="script.js"></script>
+    <script>window.onload = () => updateSlide(0);</script>
+</body>
+</html>

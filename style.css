@@ -1,0 +1,1419 @@
+/* Reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('asset/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Khusus untuk halaman About */
+body.about-page {
+    background-image: url('asset/tentangBG.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    overflow-y: auto; /* Agar halaman about bisa di-scroll ke bawah */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- PERBAIKAN STRUKTUR LAYER --- */
+
+/* Buat kontainer khusus untuk membungkus kedua foto agar tumpukannya rapi */
+.photo-container {
+    position: relative; 
+    width: 750px;  /* Sesuaikan ukuran bingkai luar */
+    height: 750px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1px;
+}
+
+.profile-photo {
+    position: relative;
+    z-index: 2;
+    
+    /* Gunakan max-width agar responsif di berbagai layar */
+    max-width: 500px; 
+    width: auto; /* Biarkan lebar menyesuaikan proporsi asli */
+    height: auto; /* Biarkan tinggi menyesuaikan proporsi asli agar tidak terpotong */
+    
+    /* Properti krusial */
+    display: block;      /* Menghilangkan whitespace di bawah gambar */
+    object-fit: contain; /* Mengatur agar seluruh gambar masuk ke dalam frame tanpa terpotong */
+    margin-top: auto;    /* Mendorong gambar ke bawah jika berada dalam flex container */
+    margin-bottom: 0;    /* Memastikan tidak ada jarak di bawah */
+    
+    /* Jika ingin posisi absolut ke bawah parent-container */
+    position: absolute;
+    bottom: -25px;
+    right: 50px;
+    left: 100px;
+}
+
+.parent-container {
+    position: relative;
+    height: 500px;
+}
+
+.text-content {
+    position: absolute;
+    left: -250px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 500px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 3; /* Pastikan di depan background */
+}
+
+/* Mengatur teks "Halo. Saya" */
+.text-content p:first-child {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: -5px; /* Menarik H1 agar lebih dekat */
+    font-weight: 400;
+}
+
+/* Mengatur Nama Depan "FERDIANTO" */
+.text-content h1 {
+    font-size: 60px;
+    color: #F5D216;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: -8px; /* Sudah diperbaiki, huruf 's' dihapus */
+    letter-spacing: -1px;
+}
+
+/* Mengatur Nama Belakang "SAPUTRA" */
+.text-content p:last-child {
+    font-size: 60px; /* Ukuran sama dengan H1 agar simetris */
+    color: #ffffff;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -1px;
+}   
+
+/* Kontainer Kontak Sejajar Horizontal */
+.contact-sidebar {
+    position: absolute;
+    left: -250px;      /* Pastikan sama dengan left brand-name */
+    top: 60%;        /* Sesuaikan jarak di bawah teks SAPUTRA */
+    display: flex;   /* Aktifkan Flexbox */
+    flex-direction: row; /* Membuat item sejajar kanan-kiri */
+    gap: 20px;       /* Jarak antar ikon */
+    z-index: 10;
+}
+
+/* Item Kontak */
+.contact-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-family: 'Montserrat';
+    position: relative; /* Penting untuk posisi teks nanti */
+}
+
+.icon-circle {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(245, 210, 22, 0.3);
+}
+
+/* Teks muncul ke atas atau tetap ke samping */
+.contact-text {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.4s ease;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Hover Effect */
+.contact-item:hover .icon-circle {
+    background-color: #F5D216;
+    color: #000;
+    transform: translateY(-5px); /* Sedikit naik ke atas saat di-hover */
+}
+
+.contact-item:hover .contact-text {
+    max-width: 200px;
+    opacity: 1;
+    padding-left: 10px;
+}
+
+/* ============================================================
+   VERTICAL DROP REVEAL (Atas ke Bawah)
+   ============================================================ */
+
+.drop-reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #F5D216; /* Warna aksen emas sebagai base */
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Layer hitam utama yang menutupi layar */
+.drop-reveal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #053E69; /* Hitam pekat */
+    z-index: 10000;
+    /* Animasi: Gerak ke bawah keluar layar */
+    animation: slideDown 1s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+}
+
+/* Animasi layer emas dengan sedikit delay agar terlihat seperti bayangan */
+.drop-reveal {
+    animation: slideDown 1s cubic-bezier(0.85, 0, 0.15, 1) 0.1s forwards;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+        visibility: hidden;
+    }
+}
+
+.content {
+    animation: fadeInContent 0.5s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInContent {
+    to { opacity: 1; }
+}
+
+
+/* --- NAVIGATION BAR --- */
+.navbar {
+    position: fixed;
+    top: 20px; /* Jarak dari atas */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Di bawah kursor, tapi di atas konten */
+    background: rgba(255, 255, 255, 0.05); /* Transparan halus */
+    backdrop-filter: blur(10px); /* Efek blur kaca */
+    padding: 10px 30px;
+    border-radius: 50px;
+    border: 1px solid rgba(245, 210, 22, 0.2); /* Border tipis warna emas */
+    animation: fadeInDown 1s ease-out 1.5s forwards; /* Muncul setelah tirai terbuka */
+    opacity: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect: Berubah jadi emas */
+.navbar ul li a:hover {
+    color: #F5D216;
+    text-shadow: 0 0 10px rgba(245, 210, 22, 0.5);
+}
+
+/* Animasi Muncul dari Atas */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Letakkan di paling atas file style.css */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Baru kemudian reset dasar lainnya */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- ABOUT PAGE SPECIFIC --- */
+.about-container {
+    padding-top: 120px;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.about-content {
+    display: flex;
+    max-width: 1100px;
+    width: 90%;
+    gap: 50px;
+    align-items: center;
+    animation: fadeInUp 1s ease-out 1.2s forwards;
+    opacity: 0;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.section-title {
+    font-size: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.section-title span {
+    color: #F5D216;
+}
+
+.description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 30px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.skill-item h3 {
+    color: #F5D216;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.skill-item p {
+    font-size: 13px;
+    color: #888;
+}
+
+.about-image img {
+    width: 400px;
+    filter: grayscale(100%);
+    transition: 0.5 s;
+    border-left: 5px solid #F5D216;
+    padding-left: 20px;
+}
+
+.about-image img:hover {
+    filter: grayscale(0%);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container Utama */
+.about-container {
+    padding: 100px 5% 50px 5%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Membagi dua kolom */
+    gap: 60px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Box Pengalaman (Timeline) */
+.experience-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(245, 210, 22, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.box-title {
+    color: #F5D216;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+}
+
+.timeline {
+    border-left: 2px solid rgba(245, 210, 22, 0.3);
+    padding-left: 20px;
+}
+
+.timeline-item {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Titik di Timeline */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: #F5D216;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #f5d216;
+}
+
+.year {
+    font-size: 0.75rem;
+    color: #F5D216;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.timeline-item p {
+    font-size: 0.9rem;
+    color: #ddd;
+    line-height: 1.4;
+}
+
+.timeline-item p strong {
+    color: #fff;
+}
+
+
+
+
+/* Merubah warna semua teks di dalam tag <strong> */
+strong {
+    color: #F5D216; /* Ini kode warna Emas khas tema kamu */
+    font-weight: 700; /* Memastikan teksnya tetap tebal */
+}
+
+/* Styling Overlay */
+.my-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9); /* Hitam transparan */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    
+    /* Posisi awal: di bawah layar */
+    transform: translateY(100%);
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Class saat aktif: naik ke atas */
+.my-overlay.active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   STYLING KHUSUS TOMBOL DOWNLOAD CV
+   ============================================================ */
+
+/* Container Utama Tombol Download */
+.contact-item.btn-download {
+    background-color: #F5D216; /* Warna emas solid */
+    color: #000; /* Teks warna hitam agar kontras */
+    padding: 10px 20px;
+    border-radius: 50px; /* Membuat sudut membulat */
+    box-shadow: 0 4px 15px rgba(245, 210, 22, 0.3); /* Efek bayangan halus */
+    transition: all 0.3s ease;
+    border: 2px solid transparent; /* Persiapan untuk hover */
+    margin-left: 10px; /* Jarak sedikit dari ikon Gmail */
+}
+
+/* Gaya Ikon di Dalam Tombol Download */
+.contact-item.btn-download .icon-box {
+    font-size: 18px;
+    margin-right: 10px; /* Jarak ikon ke teks */
+    display: flex;
+    align-items: center;
+}
+
+/* Gaya Teks di Dalam Tombol Download (Selalu Terlihat) */
+.contact-item.btn-download .download-text {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Memastikan teks selalu terlihat, tidak seperti ikon kontak lainnya */
+    opacity: 1; 
+    max-width: 200px;
+}
+
+/* --- Efek Hover Khusus Tombol Download --- */
+.contact-item.btn-download:hover {
+    background-color: transparent; /* Latar belakang jadi transparan */
+    color: #F5D216; /* Teks berubah jadi emas */
+    border-color: #F5D216; /* Border jadi emas */
+    transform: translateY(-5px); /* Sedikit naik ke atas */
+    box-shadow: 0 6px 20px rgba(245, 210, 22, 0.5); /* Bayangan lebih kuat */
+}
+
+/* Memastikan ikon juga berubah warna saat hover */
+.contact-item.btn-download:hover .icon-box {
+    color: #F5D216;
+}
+
+/* Menghapus gaya default .icon-circle dan .contact-text agar tidak bentrok */
+.contact-item.btn-download .icon-circle,
+.contact-item.btn-download .contact-text {
+    display: none;
+}
+
+/* --- WORK PAGE SPECIFIC (Edisi Lebih Menarik) --- */
+/* --- FIXED PUSTAKA PROYEK (NO SCROLL, NO SLIDE) --- */
+body.work-page {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Paksa tinggi badan 100% layar */
+    width: 100vw;
+    overflow: hidden; /* Kunci total agar tidak bisa scroll */
+    background-image: url('asset/work.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.work-container {
+    flex: 1; /* Mengambil sisa ruang layar */
+    display: flex;
+    flex-direction: column;
+    padding: 100px 4% 30px 4%; /* Sesuaikan ruang atas untuk navbar */
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.work-header {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease-out 0.8s forwards;
+    opacity: 0;
+}
+
+/* Judul dengan garis bawah emas tipis */
+.work-header h2::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #F5D216;
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+/* Grid yang dipaksa muat dalam satu layar */
+/* --- KUNCI UTAMA: NO SCROLL & FIXED HEIGHT --- */
+
+.work-grid {
+    display: flex;
+    gap: 15px;
+    align-items: stretch;
+    height: 65vh; 
+    width: 100%;
+    /* Tambahkan ini agar aman di berbagai browser */
+    overflow: hidden; 
+}
+
+.work-item {
+    flex: 1;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    /* KUNCINYA DI SINI */
+    min-width: 0; 
+    min-height: 0; /* Mencegah item membesar mengikuti konten (gambar) */
+    display: flex; /* Memastikan kontainer dalam juga berperilaku flex */
+}
+
+.work-img {
+    position: absolute; /* Ubah ke absolute agar tidak menekan parent-nya */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.work-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center;
+    filter: grayscale(100%) brightness(0.6);
+    transition: filter 0.6s ease, transform 0.1s ease-out;
+    display: block;
+}
+/* --- HOVER STATE --- */
+
+.work-item:hover {
+    flex: 1.5; /* Hanya melebar ke samping */
+}
+
+.work-item:hover .work-img img {
+    filter: grayscale(0%) brightness(1);
+    /* Jangan tambahkan transform: scale di sini agar tidak tambah tinggi */
+}
+.work-info {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 25px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+.work-info h3 {
+    color: #F5D216;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.work-info p {
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+/* --- HOVER EFFECTS (Hanya Melebar, Tidak Menggeser Layar) --- */
+.work-item:hover {
+    flex: 1.5; /* Memberikan efek melebar yang elegan */
+    border-color: rgba(245, 210, 22, 0.5);
+    z-index: 10;
+}
+
+.work-item:hover .work-img img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.05);
+}
+
+/* Sembunyikan hiasan agar tidak mengganggu komposisi statis */
+.work-item::after { display: none; }
+
+/* Responsif untuk layar kecil agar tetap dalam 1 layar */
+@media (max-width: 768px) {
+    .work-grid {
+        flex-direction: column; /* Menumpuk vertikal di HP */
+    }
+    .work-container {
+        padding-top: 80px;
+    }
+}
+
+/* Pastikan link tidak merubah warna teks atau garis bawah */
+.work-grid a.work-item {
+    text-decoration: none; /* Menghilangkan garis bawah */
+    display: flex;         /* Menjaga agar flex tetap bekerja */
+    color: inherit;        /* Mengikuti warna teks yang sudah ada */
+}
+
+/* Pastikan container teks memiliki transisi default */
+#text-container {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+}
+
+/* Tipografi Judul agar tetap konsisten saat ganti teks */
+.project-title-modern {
+    min-height: 120px; /* Jaga agar layout tidak melompat jika teks beda panjang */
+    transition: color 0.3s ease;
+}
+
+/* Beri sedikit efek overlay pada gambar agar panah navigasi selalu terlihat */
+.project-slider-panel-modern::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.4), transparent);
+    pointer-events: none;
+}
+
+/* ============================================================
+   STYLING MODERN & MINIMALIS: DETAIL KATEGORI (SPLIT)
+   ============================================================ */
+
+/* 1. Global Reset untuk Halaman Ini */
+.project-detail-page {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Kunci scrolling body utama */
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #000; /* Hitam pekat untuk background dasar */
+}
+
+/* 2. Container Utama Split Screen */
+.project-split-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+/* 3. PANEL KIRI: INFO (Fix & Statis) */
+.project-info-panel {
+    flex: 0 0 38%; /* Lebar proporsional modern (sedikit lebih sempit) */
+    background-color: #000; /* Hitam Rich Black */
+    color: white;
+    padding: 140px 5% 60px 6%; /* Padding luas untuk kesan premium */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pisahkan info atas dan nav bawah */
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.05); /* Garis batas super tipis */
+}
+
+/* Tipografi Modern Panel Kiri */
+.project-category-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #F5D216; /* Emas */
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-category-label::after {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background-color: rgba(245, 210, 22, 0.5);
+}
+
+.project-title-modern {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 66px; /* Sangat besar & bold */
+    font-weight: 800;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: 40px;
+    letter-spacing: -2px;
+}
+
+.project-description-modern {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #aaaaaa; /* Abu-abu terang agar tidak terlalu kontras */
+    margin-bottom: 50px;
+    max-width: 90%;
+    font-weight: 400;
+}
+
+.project-meta-modern {
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px;
+}
+
+.meta-row {
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.meta-row strong {
+    color: white;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+/* Navigasi Footer Modern */
+.project-nav-footer-modern {
+    margin-top: auto;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-back-modern {
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.4s ease;
+    opacity: 0.7;
+}
+
+.btn-back-modern i {
+    font-size: 10px;
+    transition: transform 0.4s ease;
+}
+
+.btn-back-modern:hover {
+    color: #F5D216;
+    opacity: 1;
+}
+
+.btn-back-modern:hover i {
+    transform: translateX(-5px); /* Efek panah mundur */
+}
+
+/* 4. PANEL KANAN: SLIDER MODERN (Floating Controls) */
+.project-slider-panel-modern {
+    flex: 1; /* Ambil sisa ruang */
+    background-color: #111; /* Hitam sedikit lebih terang */
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-wrapper-modern {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Kontrol via JS */
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory; /* Snap effect premium */
+}
+
+.slide-item-modern {
+    flex: 0 0 100%; /* Satu slide penuhi panel */
+    height: 100%;
+    scroll-snap-align: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide-item-modern img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto penuhi frame */
+    object-position: center;
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Animasi zoom halus saat slide */
+}
+
+/* Caption Minimalis di Atas Foto */
+.slide-caption-modern {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 30px;
+    padding-left: 0;
+    border-left: 3px solid #F5D216;
+    padding-left: 20px;
+    backdrop-filter: blur(3px);
+    max-width: 300px;
+    
+    /* Animasi muncul caption */
+    animation: fadeInUpCaption 0.8s ease-out 2.5s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.slide-caption-modern h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.slide-caption-modern p {
+    font-size: 13px;
+    color: #ccc;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* 5. TOMBOL KONTROL SLIDER (Minimalis & Floating) */
+.slider-controls-modern {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    pointer-events: none; /* Klik tembus ke tombol */
+    z-index: 10;
+}
+
+.ctrl-btn-modern {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.03); /* Hampir transparan */
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    pointer-events: auto; /* Tombol bisa diklik */
+    
+    /* Efek Border Emas Halus */
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* Munculkan kontrol saat panel kanan di-hover */
+.project-slider-panel-modern:hover .ctrl-btn-modern {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 1px rgba(245, 210, 22, 0.2);
+}
+
+.ctrl-btn-modern:hover {
+    background-color: #F5D216 !important; /* Emas solid saat di-hover */
+    color: #000;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(245, 210, 22, 0.3) !important;
+}
+
+/* ============================================================
+   DEFINISI ANIMASI (Micro-Interactions)
+   ============================================================ */
+
+/* 1. Animasi Fade In Up (Untuk Teks Panel Kiri) */
+.animate-fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation-name: fadeInUp;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    animation-fill-mode: forwards; /* Tetap di posisi akhir */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. Animasi Fade In Up untuk Caption (Lebih Halus) */
+@keyframes fadeInUpCaption {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   PREMIUM MOBILE EXPERIENCE (Max-width: 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        background-attachment: scroll; /* Lebih ringan untuk performa HP */
+    }
+
+    /* 1. Navbar Glassmorphism */
+    .navbar {
+        width: 90%;
+        top: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 20px;
+        border-radius: 30px;
+        animation: fadeInDown 0.8s ease-out 0.5s forwards
+    }
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;   
+    width: auto;
+    justify-content: center;
+    align-items: center;
+}
+    .navbar ul li a { font-size: 12px; letter-spacing: 0.5px; }
+
+@media (max-width: 768px) {
+    /* 1. Background Khusus HP (Gunakan gambar yang lebih gelap/clean) */
+    body {
+        background-image: url('asset/bg-mobile.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+    }
+
+    /* 2. Tata Letak Utama */
+    /* 3. Teks Nama */
+    .text-content {
+        margin-bottom: 10px;
+    }
+
+    .text-content h1, 
+    .text-content p:last-child {
+        font-size: 38px;
+        font-weight: 900;
+        line-height: 0.9;
+        text-transform: uppercase;
+    }
+
+    /* 4. Contact Sidebar: MENYEJAJARKAN SEMUA TOMBOL (WA, Gmail, Unduh) */
+    .contact-sidebar {
+        display: flex;
+        flex-direction: row; /* Membuat semuanya sejajar ke samping */
+        align-items: center;
+        justify-content: center;
+        gap: 12px; /* Jarak antar tombol */
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Styling Ikon Bulat (WA & Gmail) */
+    .icon-circle {
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(245, 210, 22, 0.4);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0; /* Mencegah ikon gepeng */
+    }
+
+    /* Tombol Unduh PDF: Disesuaikan agar muat sejajar */
+    .contact-item.btn-download {
+        background: #F5D216;
+        color: #000;
+        padding: 0 20px; /* Padding kiri-kanan */
+        height: 45px;    /* Tinggi disamakan dengan ikon bulat */
+        border-radius: 25px;
+        font-weight: 800;
+        font-size: 11px; /* Font sedikit diperkecil agar muat satu baris */
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        white-space: nowrap; /* Mencegah teks turun ke bawah */
+    }
+
+    /* Menghilangkan teks deskripsi di samping ikon jika ada, agar muat */
+    .contact-item span:not(.download-text) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    /* RESET & CONTAINER UTAMA */
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        text-align: center;
+        background-image: url('asset/bg-mobile-custom.jpg'); /* Ganti BG HP di sini */
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* FOTO: Di Tengah & Menonjol */
+    .photo-container {
+        width: 240px;
+        height: 240px;
+        position: relative;
+        margin-bottom: 10px;
+        background: radial-gradient(circle, rgba(245, 210, 22, 0.2) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .profile-photo {
+        width: 120%; /* Efek 3D keluar lingkaran */
+        height: auto;
+        position: fixed;
+        bottom: -90px; /* Sedikit turun agar terlihat lebih menonjol */
+        left: -10%;
+    }
+
+    /* 2. STYLE TEKS (Tetap Rapi) */
+    .text-content {
+        margin-bottom: 20px;
+        left: auto;
+        position: relative;
+        height: 420px;
+        
+    }
+    .contact-sidebar {
+        display: flex;
+        left: auto;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-top: -270px;
+        transform:scale(0.8) ;
+    }
+    
+    .text-content h1 {
+        font-size: 42px;
+        font-weight: 900;
+        line-height: 0.9;
+        color: #F5D216;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .text-content p:last-child {
+        font-size: 42px;
+        font-weight: 900;
+        line-height: 0.9;
+        color: #ffffff;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+/* 6. Work Page: Stacked Cards */
+    .work-grid {
+        padding: 20px;
+        gap: 25px;
+    }
+
+    .work-item {
+        height: 320px;
+        border-radius: 25px; /* Lebih rounded agar modern */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .work-info {
+        padding: 20px;
+        background: linear-gradient(to top, rgba(0,0,0,1) 10%, transparent);
+    }
+
+    /* 7. Experience (About): Minimalist Timeline */
+    .experience-box {
+        margin: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 30px;
+        padding: 25px;
+    }
+
+    .timeline-item::before {
+        left: -22px; /* Geser titik timeline agar pas */
+    }
+
+    /* Dekorasi: Tambahkan sedikit cahaya di pojok layar */
+    body::before {
+        content: '';
+        position: fixed;
+        top: -10%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(245, 210, 22, 0.1);
+        filter: blur(80px);
+        border-radius: 50%;
+        z-index: -1;
+    }
+}
+    /* 2. Pengaturan Konten About */
+.about-section {
+    display: block;
+    position: relative;
+    width: 100%;
+    /* Berikan tinggi minimal agar halaman punya ruang scroll */
+    min-height: 200vh; 
+    background-color: #000;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* UBAH DISINI: Jangan gunakan fixed */
+    position: relative; 
+    padding-top: 95vh; /* Menjaga jarak dari atas layar */
+    
+    width: 100%;
+    gap: 25px;
+}    
+    .about-text {
+        text-align: center;
+        padding: 0 15px;
+    }
+    
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Tambahan agar scroll HP mulus */
+    body {
+        overflow-x: hidden;
+    }
+    /* Reset paksa agar bisa scroll natural */
+    .project-detail-page {
+        overflow-y: auto !important; 
+        height: auto !important;
+        width: 100%;
+    }
+
+    .project-split-container {
+        flex-direction: column; /* Tumpuk vertikal */
+        height: auto;
+    }
+
+    /* 1. PANEL GAMBAR (DI ATAS) */
+    .project-slider-panel-modern {
+        order: 1; /* Pastikan di atas */
+        height: 65vh; /* Ambil 65% tinggi layar */
+        width: 100%;
+        flex: none;
+    }
+
+    /* 2. PANEL INFO (DI BAWAH) */
+    .project-info-panel {
+        order: 2; /* Pastikan di bawah */
+        flex: none;
+        width: 100%;
+        padding: 40px 25px 100px 25px; /* Padding bawah extra untuk navigasi */
+        background-color: #000;
+        border-right: none;
+    }
+
+    /* Perbaikan Tipografi */
+    .project-title-modern {
+        font-size: clamp(32px, 8vw, 40px); /* Ukuran dinamis tapi terkontrol */
+        line-height: 1.2;
+        margin-bottom: -12px;
+        letter-spacing: -1px;
+    }
+
+    .project-description-modern {
+        font-size: 14px;
+        line-height: 1.7;
+        max-width: 100%;
+        margin-bottom: 35px;
+        color: #ccc;
+    }
+
+    /* Meta data dibuat rapi menyamping */
+    .project-meta-modern {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 25px;
+    }
+
+    .meta-row {
+        margin-bottom: 0;
+        flex: 1 1 40%; /* Menjadi 2 kolom */
+    }
+
+    /* Navigasi Footer (Sticky di bawah layar agar tetap rapi) */
+.project-nav-footer-modern {
+    position: fixed;
+    top: 30px; /* Jarak dari atas */
+    left: 50%; /* Geser ke tengah */
+    transform: translateX(-50%); /* Penyeimbang agar benar-benar di pusat */
+    width: auto;
+    
+    /* Desain Floating Capsule */
+    background: rgba(10, 10, 10, 0.5); 
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    
+    padding: 12px 28px;
+    border-radius: 40px; /* Bentuk kapsul yang smooth */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Garis dekoratif tipis di kiri & kanan tombol agar lebih 'arsitektural' */
+.project-nav-footer-modern::before,
+.project-nav-footer-modern::after {
+    content: '';
+    width: 0px;
+    height: 1px;
+    background: #F5D216;
+    transition: width 0.4s ease;
+}
+
+/* Efek saat di-hover: Melebar secara elegan */
+.project-nav-footer-modern:hover {
+    padding: 12px 40px;
+    background: rgba(20, 20, 20, 0.9);
+    border-color: rgba(245, 210, 22, 0.5);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+}
+
+.project-nav-footer-modern:hover::before,
+.project-nav-footer-modern:hover::after {
+    width: 20px; /* Garis emas muncul saat di-hover */
+}
+
+.btn-back-modern {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px; /* Spasi antar huruf yang lebar untuk kesan mewah */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.btn-back-modern:hover {
+    color: #F5D216;
+}
+
+/* Responsif untuk Mobile agar tidak memakan ruang visual */
+@media (max-width: 768px) {
+    .project-nav-footer-modern {
+        top: 20px;
+        padding: 10px 20px;
+    }
+    
+    .project-nav-footer-modern:hover {
+        padding: 10px 25px;
+    }
+}
+    /* Caption Gambar (Dibuat lebih simpel agar tidak numpuk teks) */
+    .slide-caption-modern {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        padding: 15px;
+        background: rgba(0,0,0,0.6);
+    }
+
+    /* Tombol Kontrol Slider (Besar agar mudah di-tap) */
+    .slider-controls-modern {
+        padding: 0 10px;
+    }
+    
+    .ctrl-btn-modern:active {
+    transform: scale(0.9);
+    background: rgba(245, 210, 22, 0.2) !important; /* Flash warna emas transparan */
+    border-color: #F5D216 !important;
+}
+}    
