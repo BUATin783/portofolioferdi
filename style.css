@@ -1383,8 +1383,11 @@ body.work-page {
         gap: 20px; /* Tambahkan gap agar item tidak menempel rapat */
     }
     .work-container {
-        padding-top: 60px; /* Sesuaikan padding agar tidak terlalu jauh di layar kecil */
-    }
+           display: block;
+    position: relative;
+    width: 100%;
+    /* Berikan tinggi minimal agar halaman punya ruang scroll */
+    min-height:auto; 
 }
 
 /* Pengaturan Link agar tidak merusak gaya */
