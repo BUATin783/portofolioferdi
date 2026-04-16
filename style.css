@@ -693,46 +693,6 @@ body.work-page {
 /* Sembunyikan hiasan agar tidak mengganggu komposisi statis */
 .work-item::after { display: none; }
 
-/* Responsif untuk layar kecil agar tetap dalam 1 layar */
-@media (max-width: 768px) {
-    .work-grid {
-        flex-direction: column; /* Menumpuk vertikal di HP */
-    }
-    .work-container {
-        padding-top: 80px;
-    }
-}
-
-/* Pastikan link tidak merubah warna teks atau garis bawah */
-.work-grid a.work-item {
-    text-decoration: none; /* Menghilangkan garis bawah */
-    display: flex;         /* Menjaga agar flex tetap bekerja */
-    color: inherit;        /* Mengikuti warna teks yang sudah ada */
-}
-
-/* Pastikan container teks memiliki transisi default */
-#text-container {
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    will-change: opacity, transform;
-}
-
-/* Tipografi Judul agar tetap konsisten saat ganti teks */
-.project-title-modern {
-    min-height: 120px; /* Jaga agar layout tidak melompat jika teks beda panjang */
-    transition: color 0.3s ease;
-}
-
-/* Beri sedikit efek overlay pada gambar agar panah navigasi selalu terlihat */
-.project-slider-panel-modern::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 150px;
-    height: 100%;
-    background: linear-gradient(to left, rgba(0,0,0,0.4), transparent);
-    pointer-events: none;
-}
 
 /* ============================================================
    STYLING MODERN & MINIMALIS: DETAIL KATEGORI (SPLIT)
@@ -1415,5 +1375,60 @@ body.work-page {
     transform: scale(0.9);
     background: rgba(245, 210, 22, 0.2) !important; /* Flash warna emas transparan */
     border-color: #F5D216 !important;
+}
+/* Media Query untuk Responsivitas */
+@media (max-width: 768px) {
+    .work-grid {
+        flex-direction: column; /* Menumpuk vertikal di HP */
+        gap: 20px; /* Tambahkan gap agar item tidak menempel rapat */
+    }
+    .work-container {
+        padding-top: 60px; /* Sesuaikan padding agar tidak terlalu jauh di layar kecil */
+    }
+}
+
+/* Pengaturan Link agar tidak merusak gaya */
+.work-grid a.work-item {
+    text-decoration: none;
+    display: flex;
+    color: inherit;
+    outline: none; /* Menghilangkan outline default namun tetap aksesibel */
+}
+
+/* Container Teks dengan Performa Tinggi */
+#text-container {
+    transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
+                transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+    /* Hindari 'transition: all' untuk performa render yang lebih ringan */
+}
+
+/* Tipografi Judul Modern */
+.project-title-modern {
+    min-height: 1.2em; /* Gunakan unit em agar fleksibel terhadap ukuran font */
+    display: flex;
+    align-items: center; /* Memastikan teks tetap di tengah secara vertikal */
+    transition: color 0.3s ease;
+    margin-bottom: 1rem;
+    overflow: hidden; /* Mencegah teks meluap jika terlalu panjang */
+}
+
+/* Overlay Slider untuk Navigasi */
+.project-slider-panel-modern {
+    position: relative; /* Memastikan ::after menempel pada panel ini */
+    overflow: hidden;
+}
+
+.project-slider-panel-modern::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%; /* Gunakan persentase agar adaptif dengan lebar container */
+    max-width: 150px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+    pointer-events: none;
+    z-index: 2; /* Pastikan berada di atas gambar tapi di bawah tombol navigasi jika ada */
 }
 }    
