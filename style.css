@@ -549,24 +549,51 @@ strong {
 }
 
 /* --- WORK PAGE SPECIFIC (Edisi Lebih Menarik) --- */
-/* --- FIXED PUSTAKA PROYEK (NO SCROLL, NO SLIDE) --- */
+/* =========================================
+   1. Variabel, Keyframes & Reset Dasar
+   ========================================= */
+:root {
+    --primary-gold: #F5D216;      /* Warna emas Anda */
+    --bg-dark-card: rgba(255, 255, 255, 0.03);
+    --border-dark: rgba(255, 255, 255, 0.1);
+    --transition-smooth: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- Keyframes Animasi Masuk (KUNCI UTAMA) --- */
+@keyframes fadeInUpModern {
+    from {
+        opacity: 0;
+        transform: translateY(30px); /* Muncul dari bawah */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   2. TAMPILAN DESKTOP (Statis / No Scroll)
+   ========================================= */
 body.work-page {
     margin: 0;
     padding: 0;
-    height: 100vh; /* Paksa tinggi badan 100% layar */
+    height: 100vh;
     width: 100vw;
     background-image: url('asset/work.jpg');
     background-size: cover;
     background-attachment: fixed;
     display: flex;
     flex-direction: column;
+    overflow: hidden; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: white;
 }
 
 .work-container {
-    flex: 1; /* Mengambil sisa ruang layar */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 100px 4% 30px 4%; /* Sesuaikan ruang atas untuk navbar */
+    padding: 100px 4% 30px 4%;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
@@ -577,67 +604,139 @@ body.work-page {
 
 .work-header {
     text-align: center;
-    margin-bottom: 20px;
-    animation: fadeInUp 1s ease-out 0.8s forwards;
+    margin-bottom: 30px;
+    animation: fadeInUpModern 1s ease-out 0.4s forwards;
     opacity: 0;
 }
 
-/* Judul dengan garis bawah emas tipis */
 .work-header h2::after {
     content: '';
     display: block;
     width: 50px;
     height: 3px;
-    background: #F5D216;
+    background: var(--primary-gold, #f5d216); /* Fallback warna emas */
     margin: 10px auto;
     border-radius: 2px;
 }
 
-/* Grid yang dipaksa muat dalam satu layar */
-/* --- KUNCI UTAMA: NO SCROLL & FIXED HEIGHT --- */
-
+/* Grid Desktop */
 .work-grid {
     display: flex;
     gap: 15px;
     align-items: stretch;
-    height: 65vh; 
+    height: 65vh; /* Sesuaikan agar pas di layar laptop */
     width: 100%;
-    /* Tambahkan ini agar aman di berbagai browser */
-    overflow: hidden; 
+    overflow: hidden;
 }
 
-.work-item {
+.work-grid a.work-item {
+    text-decoration: none;
+    display: flex;
     flex: 1;
     position: relative;
     border-radius: 15px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    
-    /* KUNCINYA DI SINI */
-    min-width: 0; 
-    min-height: 0; /* Mencegah item membesar mengikuti konten (gambar) */
-    display: flex; /* Memastikan kontainer dalam juga berperilaku flex */
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: inherit;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 769px) {
+    .work-grid a.work-item:hover {
+        flex: 1.6; /* Efek melebar */
+        border-color: rgba(245, 210, 22, 0.6);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
 }
 
 .work-img {
-    position: absolute; /* Ubah ke absolute agar tidak menekan parent-nya */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .work-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
-    object-position: center;
+    object-fit: cover;
     filter: grayscale(100%) brightness(0.6);
-    transition: filter 0.6s ease, transform 0.1s ease-out;
-    display: block;
+    transition: all 0.5s ease;
 }
+
+.work-grid a.work-item:hover .work-img img {
+    filter: grayscale(0%) brightness(0.9);
+    transform: scale(1.08);
+}
+
+/* =========================================
+   3. TAMPILAN HP (Perbaikan Landscape & Animasi)
+   ========================================= */
+@media (max-width: 768px) {
+    body.work-page {
+        height: auto !important;
+        min-height: 100vh;
+        overflow-y: auto !important;
+        display: block !important;
+    }
+
+    .work-container {
+        display: block !important;
+        padding: 80px 20px 50px 20px;
+    }
+
+    .work-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .work-item {
+        display: block !important;
+        width: 100% !important;
+        height: 0 !important; 
+        /* Rasio 16:9 Landscape (9/16 * 100 = 56.25%) */
+        padding-bottom: 56.25% !important; 
+        position: relative !important;
+        margin-bottom: 10px !important;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    /* Animasi saat grid ditekan di HP */
+    .work-item:active {
+        transform: scale(0.97);
+    }
+
+    /* Memastikan isi (gambar) memenuhi ruang landscape */
+    .work-item > * {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .work-item .work-img img {
+        filter: grayscale(100%) brightness(0.8); /* Di HP biarkan berwarna */
+    }
+
+    .project-title-modern {
+        min-height: auto;
+        padding: 10px 0;
+        font-size: 1.1rem;
+        color: #f5d216; /* Warna emas agar terbaca */
+    }
+}
+
+
 /* --- HOVER STATE --- */
 
 .work-item:hover {
@@ -1375,57 +1474,4 @@ body.work-page {
     background: rgba(245, 210, 22, 0.2) !important; /* Flash warna emas transparan */
     border-color: #F5D216 !important;
 }
-/* --- TAMPILAN HP (Mobile Fokus) --- */
-@media (max-width: 768px) {
-
-    .work-container {
-    display: block;
-    position: relative;
-    width: 100%;
-    /* Berikan tinggi minimal agar halaman punya ruang scroll */
-    min-height:auto; 
 }
-    }
-
-    .work-grid {
-        display: flex;
-        flex-direction: column; /* Item menumpuk vertikal */
-        flex-wrap: nowrap;      /* Pastikan mengalir ke bawah */
-        gap: 20px;
-        padding: 15px;
-    }
-
-    /* Agar item di HP punya ukuran yang pas */
-    .work-item {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-}
-
-/* --- CSS Tambahan dari Kode Anda Sebelumnya (Tetap Seragam) --- */
-.work-grid a.work-item {
-    text-decoration: none;
-    display: flex;
-    color: inherit;
-}
-
-#text-container {
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.project-title-modern {
-    min-height: 120px;
-    transition: color 0.3s ease;
-}
-
-.project-slider-panel-modern::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 150px;
-    height: 100%;
-    background: linear-gradient(to left, rgba(0,0,0,0.4), transparent);
-    pointer-events: none;
-}
-
